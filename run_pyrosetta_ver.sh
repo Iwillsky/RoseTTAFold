@@ -21,7 +21,16 @@ MEM="64" # max memory (in GB)
 # Inputs:
 IN="$1"                # input.fasta
 WDIR=`realpath -s $2`  # working folder
+RosettaJobId="$3"
 
+if [ x$4 != x ]
+then
+    CPU="$4"  # set cpu if param exists
+fi
+if [ x$5 != x ]
+then
+    MEM="$5"  # set memory if param exists
+fi
 
 LEN=`tail -n1 $IN | wc -m`
 
@@ -33,7 +42,7 @@ conda activate RoseTTAFold
 ############################################################
 if [ ! -s $WDIR/t000_.msa0.a3m ]
 then
-    echo "Running HHblits"
+    echo "Running HHblits of JobId ${RosettaJobId}"
     $PIPEDIR/input_prep/make_msa.sh $IN $WDIR $CPU $MEM > $WDIR/log/make_msa.stdout 2> $WDIR/log/make_msa.stderr
 fi
 

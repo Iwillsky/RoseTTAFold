@@ -7,10 +7,11 @@ out_dir="$2"
 # resources
 CPU="$3"
 MEM="$4"
+curJobId="$5"
 
 # sequence databases
-DB="$PIPEDIR/UniRef30_2020_06/UniRef30_2020_06"
-MYDB="$PIPEDIR/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt"
+DB="$WDIR/UniRef30_2020_06/UniRef30_2020_06"  # modify DIR as WDIR
+MYDB="$WDIR/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt"  # modify DIR as WDIR
 
 # setup hhblits command
 HHBLITS="hhblits -o /dev/null -mact 0.35 -maxfilt 100000000 -neffmax 20 -cov 25 -cpu $CPU -nodiff -realign_max 100000000 -maxseq 1000000 -maxmem $MEM -n 4 -d $DB -d $MYDB"
@@ -36,14 +37,14 @@ do
     then
         if [ ! -s ${out_prefix}.msa0.a3m ]
         then
-            cp $tmp_dir/t000_.$e.id90cov75.a3m ${out_prefix}.msa0.a3m
+            cp $tmp_dir/$curJobId.$e.id90cov75.a3m ${out_prefix}.msa0.a3m
 	    break
         fi
     elif ((n50>4000))
     then
         if [ ! -s ${out_prefix}.msa0.a3m ]
         then
-            cp $tmp_dir/t000_.$e.id90cov50.a3m ${out_prefix}.msa0.a3m
+            cp $tmp_dir/$curJobId.$e.id90cov50.a3m ${out_prefix}.msa0.a3m
             break
         fi
     else
@@ -54,5 +55,5 @@ done
 
 if [ ! -s ${out_prefix}.msa0.a3m ]
 then
-    cp $tmp_dir/t000_.1e-3.id90cov50.a3m ${out_prefix}.msa0.a3m
+    cp $tmp_dir/$curJobId.1e-3.id90cov50.a3m ${out_prefix}.msa0.a3m
 fi
