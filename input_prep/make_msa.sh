@@ -10,16 +10,18 @@ MEM="$4"
 curJobId="$5"
 
 # sequence databases
-DB="$WDIR/UniRef30_2020_06/UniRef30_2020_06"  # modify DIR as WDIR
-MYDB="$WDIR/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt"  # modify DIR as WDIR
+DB="${out_dir}/UniRef30_2020_06/UniRef30_2020_06"  # modify DIR as WDIR
+MYDB="${out_dir}/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt"  # modify DIR as WDIR
+echo "DB: ${DB}"
+echo "MYDB: ${MYDB}"
 
 # setup hhblits command
-HHBLITS="hhblits -o /dev/null -mact 0.35 -maxfilt 100000000 -neffmax 20 -cov 25 -cpu $CPU -nodiff -realign_max 100000000 -maxseq 1000000 -maxmem $MEM -n 4 -d $DB -d $MYDB"
+HHBLITS="hhblits -o /dev/null -mact 0.35 -maxfilt 100000000 -neffmax 20 -cov 25 -cpu ${CPU} -nodiff -realign_max 100000000 -maxseq 1000000 -maxmem ${MEM} -n 4 -d ${DB} -d ${MYDB}"
 echo $HHBLITS
 
-mkdir -p $out_dir/hhblits
-tmp_dir="$out_dir/hhblits"
-out_prefix="$out_dir/${curJobId}"
+mkdir -p ${out_dir}/hhblits
+tmp_dir="${out_dir}/hhblits"
+out_prefix="${out_dir}/${curJobId}"
 
 # perform iterative searches
 prev_a3m="$in_fasta"
